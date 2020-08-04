@@ -1,4 +1,4 @@
-package br.com.orion.scheduledtransfer.presentation;
+package br.com.orion.scheduledtransfer.presentation.resource;
 
 import br.com.orion.scheduledtransfer.application.dto.AccountDto;
 import br.com.orion.scheduledtransfer.domain.interfaces.IAccountService;
