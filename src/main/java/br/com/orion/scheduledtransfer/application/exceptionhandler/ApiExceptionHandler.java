@@ -47,8 +47,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceAlreadyExistsException(ResourceNotFoundException ex) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleResourceAlreadyExistsException(UserNotFoundException ex) {
 
         ErrorDetail error = ErrorDetail.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())

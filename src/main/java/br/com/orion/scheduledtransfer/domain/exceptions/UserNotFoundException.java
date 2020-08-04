@@ -1,10 +1,10 @@
 package br.com.orion.scheduledtransfer.domain.exceptions;
 
-public class ResourceNotFoundException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public ResourceNotFoundException(String message) {
+    public UserNotFoundException(String message) {
         super(message);
     }
 }

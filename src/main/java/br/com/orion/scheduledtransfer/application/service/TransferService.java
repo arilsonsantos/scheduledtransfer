@@ -3,7 +3,7 @@ package br.com.orion.scheduledtransfer.application.service;
 import br.com.orion.scheduledtransfer.application.factory.TaxCalculationFactory;
 import br.com.orion.scheduledtransfer.application.helper.TransferTypeEnumHelper;
 import br.com.orion.scheduledtransfer.domain.enumaration.TransferTypeEnum;
-import br.com.orion.scheduledtransfer.domain.exceptions.ResourceNotFoundException;
+import br.com.orion.scheduledtransfer.domain.exceptions.AccountNotFoundException;
 import br.com.orion.scheduledtransfer.domain.exceptions.TaxNotAvailableException;
 import br.com.orion.scheduledtransfer.domain.interfaces.IAccountService;
 import br.com.orion.scheduledtransfer.domain.interfaces.ITaxCalculation;
@@ -11,7 +11,6 @@ import br.com.orion.scheduledtransfer.domain.interfaces.ITransferService;
 import br.com.orion.scheduledtransfer.domain.interfaces.repository.ITransferRepository;
 import br.com.orion.scheduledtransfer.domain.model.Account;
 import br.com.orion.scheduledtransfer.domain.model.Transfer;
-import br.com.orion.scheduledtransfer.infrastructure.utils.DateUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static br.com.orion.scheduledtransfer.infrastructure.utils.DateUtils.daysBetween;
-import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 @AllArgsConstructor
@@ -52,7 +50,7 @@ public class TransferService implements ITransferService {
         Account account = accountService.getByAccountNumber(accountNumber);
 
         if (!account.getUser().getId().equals(idUser)){
-            throw new ResourceNotFoundException("Account belongs to another user.");
+            throw new AccountNotFoundException("Account not exits or belongs to another user.");
         }
         Pageable paging = PageRequest.of(pageNumber, pageSize);
         var transfers = transferRepository.findAllTransferByAccount(account, paging);

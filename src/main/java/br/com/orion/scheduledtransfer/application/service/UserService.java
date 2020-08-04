@@ -1,7 +1,7 @@
 package br.com.orion.scheduledtransfer.application.service;
 
 import br.com.orion.scheduledtransfer.domain.exceptions.ResourceAlreadyExistsException;
-import br.com.orion.scheduledtransfer.domain.exceptions.ResourceNotFoundException;
+import br.com.orion.scheduledtransfer.domain.exceptions.UserNotFoundException;
 import br.com.orion.scheduledtransfer.domain.interfaces.IRoleRepository;
 import br.com.orion.scheduledtransfer.domain.interfaces.IUserService;
 import br.com.orion.scheduledtransfer.domain.model.Role;
@@ -34,11 +34,11 @@ public class UserService implements IUserService {
     }
 
     public User findByUsername(String username){
-        return userRepository.getByUsername(username).orElseThrow(()-> new ResourceNotFoundException("User not found."));
+        return userRepository.getByUsername(username).orElseThrow(()-> new UserNotFoundException("User not found."));
     }
 
     public Long findIdByUsername(String username){
-        return userRepository.getIdByUsername(username).orElseThrow(()-> new ResourceNotFoundException("User not found."));
+        return userRepository.getIdByUsername(username).orElseThrow(()-> new UserNotFoundException("User not found."));
     }
 
 

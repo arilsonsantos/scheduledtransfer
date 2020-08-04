@@ -1,7 +1,7 @@
 package br.com.orion.scheduledtransfer.application.service;
 
+import br.com.orion.scheduledtransfer.domain.exceptions.AccountNotFoundException;
 import br.com.orion.scheduledtransfer.domain.exceptions.ResourceAlreadyExistsException;
-import br.com.orion.scheduledtransfer.domain.exceptions.ResourceNotFoundException;
 import br.com.orion.scheduledtransfer.domain.interfaces.IAccountService;
 import br.com.orion.scheduledtransfer.domain.interfaces.repository.IAccountRepository;
 import br.com.orion.scheduledtransfer.domain.model.Account;
@@ -42,7 +42,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public Account getByAccountNumber(String accountNumber) {
-       return repository.findByNumberEquals(accountNumber).orElseThrow(() -> new ResourceNotFoundException("Account not found"));
+       return repository.findByNumberEquals(accountNumber).orElseThrow(() -> new AccountNotFoundException("Account not found"));
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.orion.scheduledtransfer.application.service;
 
-import br.com.orion.scheduledtransfer.domain.exceptions.ResourceNotFoundException;
+import br.com.orion.scheduledtransfer.domain.exceptions.UserNotFoundException;
 import br.com.orion.scheduledtransfer.infrastructure.login.LoginUser;
 import br.com.orion.scheduledtransfer.infrastructure.login.LoginUserMapper;
 import br.com.orion.scheduledtransfer.domain.interfaces.repository.IUserRepository;
@@ -21,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LoginUser user = repository.getByUsername(username)
                 .map(userMapper::map)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         return user;
     }

@@ -1,4 +1,4 @@
-# ST - Scheduled Transfer
+## ST - Scheduled Transfer
 
 Scheduled Transfer is an API to schedule financial transfers.
 ### Reference Documentation
@@ -115,12 +115,6 @@ POST
             "exception": "ResourceAlreadyExistsException",
             "timestamp": "9999-99-99T99:99:99.999999"
         }
-        {
-            "statusCode": 400,
-            "message": "There is already an account with this number",
-            "exception": "ResourceAlreadyExistsException",
-            "timestamp": "9999-99-99T99:99:99.999999"
-        }       
    
     GET  
         
@@ -167,21 +161,20 @@ http://localhost:8080/api/protected/transfers
         {
             "statusCode": 400,
             "message": "Account not found",
-            "exception": "ResourceNotFoundException",
-            "timestamp": "2020-08-04T09:34:22.508353"
+            "exception": "AccountNotFoundException",
+            "timestamp": "9999-99-99T99:99:99.999999"
         }
         {
             "statusCode": 400,
             "message": "Account not exist or belongs to another user",
             "exception": "AccountNotFoundException",
-            "timestamp": "2020-08-04T09:34:52.93088"
+            "timestamp": "9999-99-99T99:99:99.999999"
         }
-        
         {
             "statusCode": 400,
             "message": "Invalid argument(s)",
             "exception": "MethodArgumentNotValidException",
-            "timestamp": "2020-08-04T09:39:50.667272",
+            "timestamp": "9999-99-99T99:99:99.999999",
             "errors": {
                 "accountFrom": "Account must not be null/empty."
                 "accountTo": Account must not be null/empty.",
@@ -189,12 +182,13 @@ http://localhost:8080/api/protected/transfers
                 "amount": "Ammount must not be null.",
             }
         } 
-    GET
-    http://localhost:8080/api/protected/transfers/999999
-      * Request:  
-      Basic auth (username and password)  
-        
-          
+  
+            
+##### List transfers by account 
+http://localhost:8080/api/protected/transfers/999999   
+  * Request:  
+  Basic auth (username and password)  
+  GET  
  
    * Response(s): 
               
@@ -218,7 +212,13 @@ http://localhost:8080/api/protected/transfers
          400 Bad request
          {
              "statusCode": 400,
-             "message": "Account belongs to another user.",
-             "exception": "ResourceNotFoundException",
-             "timestamp": "2020-08-04T09:47:08.753459"
+             "message": "Account not found",
+             "exception": "AccountNotFoundException",
+             "timestamp": "9999-99-99T99:99:99.999999",
+         }   
+         {
+             "statusCode": 400,
+             "message": "Account not exits or belongs to another user.",
+             "exception": "AccountNotFoundException",
+             "timestamp": "9999-99-99T99:99:99.999999",
          }     
