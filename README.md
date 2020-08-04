@@ -17,7 +17,9 @@ Scheduled Transfer is an API to schedule financial transfers.
 ##### Methodology
 * TDD has been applied to begin the functionalities
 * Arch Unit has being used to define the architecture since begin
-
+  
+Architecture model  
+![](docs/model_architecture.png)
 
 ### Install
 Wha do you need to do to run the ST
