@@ -59,6 +59,10 @@
             <version>5.3.3.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit-junit5-engine -->
         <dependency>
             <groupId>com.tngtech.archunit</groupId>
