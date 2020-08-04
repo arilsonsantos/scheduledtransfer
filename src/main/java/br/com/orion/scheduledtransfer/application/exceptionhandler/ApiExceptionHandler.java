@@ -60,5 +60,43 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(TaxNotAvailableException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(TaxNotAvailableException ex) {
+
+        ErrorDetail error = ErrorDetail.builder()
+                .statusCode(HttpStatus.NOT_ACCEPTABLE.value())
+                .exception(ex.getClass().getSimpleName())
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(AccountNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(AccountNotFoundException ex) {
+
+        ErrorDetail error = ErrorDetail.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .exception(ex.getClass().getSimpleName())
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(InvalidDateException ex) {
+
+        ErrorDetail error = ErrorDetail.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .exception(ex.getClass().getSimpleName())
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 }
