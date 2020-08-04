@@ -74,7 +74,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AccountNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(AccountNotFoundException ex) {
+    public ResponseEntity<?> handleAccountNotFoundException(AccountNotFoundException ex) {
 
         ErrorDetail error = ErrorDetail.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
@@ -87,7 +87,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InvalidDateException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(InvalidDateException ex) {
+    public ResponseEntity<?> handleInvalidDateException(InvalidDateException ex) {
+
+        ErrorDetail error = ErrorDetail.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .exception(ex.getClass().getSimpleName())
+                .message(ex.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccountNumberFormatException.class)
+    public ResponseEntity<?> handleAccountNumberFormatException(AccountNumberFormatException ex) {
 
         ErrorDetail error = ErrorDetail.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())

@@ -20,16 +20,16 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TransferNewDto implements Serializable {
 
-    @NotEmpty
+    @NotEmpty(message = "Account must not be null/empty.")
     private String accountFrom;
 
-    @NotEmpty
+    @NotEmpty(message = "Account must not be null/empty.")
     private String accountTo;
 
-    @NotNull
+    @NotNull(message = "Amount must not be null.")
     private BigDecimal amount;
 
-    @NotNull
+    @NotNull(message = "DateSchedule must not be null.")
     private LocalDate dateSchedule;
 
     public  TransferNewDto (Transfer transfer){

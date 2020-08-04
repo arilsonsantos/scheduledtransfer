@@ -1,6 +1,7 @@
 package br.com.orion.scheduledtransfer.presentation.resource;
 
 import br.com.orion.scheduledtransfer.application.dto.AccountDto;
+import br.com.orion.scheduledtransfer.domain.exceptions.AccountNumberFormatException;
 import br.com.orion.scheduledtransfer.domain.interfaces.IAccountService;
 import br.com.orion.scheduledtransfer.domain.interfaces.IUserService;
 import br.com.orion.scheduledtransfer.domain.model.Account;
@@ -29,6 +30,9 @@ public class AccountResource {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<AccountDto> create(@Validated @RequestBody AccountDto accountDto, @AuthenticationPrincipal UserDetails principal){
+        if (!accountDto.getNumber().matches("\\d{6}")){
+            throw new AccountNumberFormatException("Account number must have 6 numbers");
+        }
         User user = userService.findByUsername(principal.getUsername());
         Account account = accountDto.toAccount();
         account.setUser(user);

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class AccountDto implements Serializable {
 
     private Long id;
 
-    @NotNull
+    @Size(min = 6, max = 6, message = "Account number must have 6 characters/numbers")
     private String number;
 
    public AccountDto(Account account){

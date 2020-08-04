@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Data
 @Builder
@@ -18,7 +19,8 @@ import javax.validation.constraints.NotEmpty;
 public class UserDto {
 
     private Long id;
-    @NotEmpty
+    @NotEmpty(message = "Username must be not null.")
+    @Size(min = 5, max = 20, message = "Username must have between 5 and 20 characters.")
     private String username;
     private String password;
 
