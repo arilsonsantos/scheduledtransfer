@@ -11,8 +11,8 @@
     <groupId>br.com.orion</groupId>
     <artifactId>scheduledtransfer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>scheduledtransfer</name>
+    <description>API for schedule transfer</description>
 
     <properties>
         <java.version>11</java.version>
