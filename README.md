@@ -22,7 +22,7 @@ Architecture model
 ![](docs/model_architecture.png)
 
 ### Install
-Wha do you need to do to run the ST
+What do you need to do to run the ST
 
 * Install Java 14.0.2
 * Install Apache Maven
@@ -38,6 +38,13 @@ Wha do you need to do to run the ST
         mvn spring-boot:run
 
 ### How to user the URIs  
+The default language is English, but you can switch it to Portuguese trhough the header adding the Accept-Language.  
+* 
+
+      Accept-Language  PT
+ 
+     
+ 
 ##### Add a user  
 http://localhost:8080/api/public/users
   * Request:  
