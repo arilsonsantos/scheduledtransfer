@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.util.List;
 
 @Getter
-@Setter
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@EqualsAndHashCode(of = "id")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
