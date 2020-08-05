@@ -28,7 +28,7 @@ Wha do you need to do to run the ST
 * Install Apache Maven
 * Install Git
 * Clone the project from github
-    git clone https://github.com/arilsonsantos/scheduledtransfer.git
+    git clone https://github.com/arilsonsantos/scheduledtransfer.git  
     Go to the application directory, ex:
 
          cd scheduledtransfer
