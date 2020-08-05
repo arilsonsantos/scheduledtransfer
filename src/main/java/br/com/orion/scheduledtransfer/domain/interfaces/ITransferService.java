@@ -12,6 +12,6 @@ public interface ITransferService {
 
     Transfer execute(Transfer transfer);
 
-    Page<Transfer> findAllTransferByAccountAndUser(String accountNumber, Long idUer, Integer pageNumber, Integer pageSize);
+    Page<Transfer> findAllTransferByAccountNumberAndIdUser(String accountNumber, Long idUer, Integer pageNumber, Integer pageSize);
 
 }

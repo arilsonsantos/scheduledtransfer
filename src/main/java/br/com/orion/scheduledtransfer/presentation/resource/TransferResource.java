@@ -9,6 +9,7 @@ import br.com.orion.scheduledtransfer.domain.interfaces.ITransferService;
 import br.com.orion.scheduledtransfer.domain.interfaces.IUserService;
 import br.com.orion.scheduledtransfer.domain.model.Account;
 import br.com.orion.scheduledtransfer.domain.model.Transfer;
+import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
+import static br.com.orion.scheduledtransfer.application.enumeration.MessageApplicationEnum.ACCOUNT_NOT_EXIST;
+import static br.com.orion.scheduledtransfer.application.enumeration.MessageApplicationEnum.SCHEDULED_DATE_LESS_TODAY;
 import static br.com.orion.scheduledtransfer.infrastructure.utils.PageNumberUtils.adjustmentPagination;
 
 @RestController
@@ -32,6 +35,7 @@ public class TransferResource {
     private ITransferService transferService;
     private IAccountService accountService;
     private IUserService userService;
+    private MessageUtils messageUtils;
 
     @PostMapping
     public ResponseEntity<TransferDto> execute(@Validated @RequestBody TransferNewDto transferNewDto, @AuthenticationPrincipal UserDetails user){
@@ -66,7 +70,7 @@ public class TransferResource {
         Long idUser = userService.findIdByUsername(user.getUsername());
 
         pageNumber = adjustmentPagination(pageNumber);
-        Page<Transfer> transfers = transferService.findAllTransferByAccountAndUser(accountNumber, idUser, pageNumber, pageSize);
+        Page<Transfer> transfers = transferService.findAllTransferByAccountNumberAndIdUser(accountNumber, idUser, pageNumber, pageSize);
 
         Page<TransferDto> transfersDto =  transfers.map(t -> t).map(TransferDto::new);
 
@@ -79,13 +83,15 @@ public class TransferResource {
 
     private void validateUsername(String userRequest, String username){
         if (!username.equalsIgnoreCase(userRequest)){
-            throw  new AccountNotFoundException("Account not exist or belongs to another user");
+            String error = messageUtils.getMessage(ACCOUNT_NOT_EXIST);
+            throw  new AccountNotFoundException(error);
         }
     }
 
     private void validateScheduleDate(LocalDate date){
         if (date.isBefore(LocalDate.now())){
-            throw new InvalidDateException("Scheduled date can't be less than today");
+            String error = messageUtils.getMessage(SCHEDULED_DATE_LESS_TODAY);
+            throw new InvalidDateException(error);
         }
     }
 

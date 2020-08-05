@@ -23,7 +23,7 @@ public class AccountDto implements Serializable {
 
     private Long id;
 
-    @Size(min = 6, max = 6, message = "Account number must have 6 characters/numbers")
+    @Size(min = 6, max = 6, message = "{account.number.size}")
     private String number;
 
    public AccountDto(Account account){
