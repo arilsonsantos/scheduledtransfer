@@ -71,7 +71,7 @@ public class TransferService implements ITransferService {
         if (taxCalculation == null){
             String error = messageUtils.getMessage(CONDITION_NOT_ACCEPTABLE);
             log.error(error);
-            throw new TaxNotAvailableException(error + " Please review the amount and/or scheduling date.");
+            throw new TaxNotAvailableException(error);
         }
     }
 

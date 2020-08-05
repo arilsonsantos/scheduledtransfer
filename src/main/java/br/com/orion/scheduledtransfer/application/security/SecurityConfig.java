@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/*/**")
                 .antMatchers(HttpMethod.POST, "/api/public/users")
                 .antMatchers(HttpMethod.GET, "/api/public/users")
-                //.antMatchers(HttpMethod.GET, "/api/protected/accounts")
                 .antMatchers("/h2/**");
     }
 
