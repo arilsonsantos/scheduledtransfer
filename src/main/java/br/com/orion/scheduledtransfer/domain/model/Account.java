@@ -1,23 +1,18 @@
 package br.com.orion.scheduledtransfer.domain.model;
 
-import java.util.List;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-@Data
+@Getter
+@Setter
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(of= "number")
-@Builder
 public class Account {
 
     @Id
