@@ -6,6 +6,7 @@ import br.com.orion.scheduledtransfer.domain.interfaces.IUserService;
 import br.com.orion.scheduledtransfer.domain.model.Role;
 import br.com.orion.scheduledtransfer.domain.model.User;
 import br.com.orion.scheduledtransfer.domain.interfaces.repository.IUserRepository;
+import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,12 +34,16 @@ public class UserServiceTest {
     @MockBean
     IRoleRepository roleRepository;
 
+    @MockBean
+    MessageUtils messageUtils;
+
     PasswordEncoder passwordEncoder;
+
 
     @BeforeEach
     public void setUp(){
         passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        userService = new UserService(userRepository, roleRepository, passwordEncoder);
+        userService = new UserService(userRepository, roleRepository, passwordEncoder, messageUtils);
     }
 
     @Test

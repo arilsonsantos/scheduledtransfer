@@ -5,7 +5,9 @@ import br.com.orion.scheduledtransfer.domain.exceptions.ResourceAlreadyExistsExc
 import br.com.orion.scheduledtransfer.domain.interfaces.IAccountService;
 import br.com.orion.scheduledtransfer.domain.interfaces.repository.IAccountRepository;
 import br.com.orion.scheduledtransfer.domain.model.Account;
+import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +15,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static br.com.orion.scheduledtransfer.application.enumeration.MessageApplicationEnum.ACCOUNT_ALREADY_EXISTS;
+import static br.com.orion.scheduledtransfer.application.enumeration.MessageApplicationEnum.ACCOUNT_NOT_FOUND;
+
+@Slf4j
 @Service
 @AllArgsConstructor
 public class AccountService implements IAccountService {
 
     private IAccountRepository repository;
+    private MessageUtils messageUtils;
 
     public Account create(Account account) {
         isExist(account.getNumber());
@@ -32,17 +39,21 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public boolean isExist(String number) {
-        Optional<Account> account = repository.findByNumberEquals(number);
+    public boolean isExist(String accountNumber) {
+        Optional<Account> account = repository.findByNumberEquals(accountNumber);
         if (account.isPresent()) {
-            throw new ResourceAlreadyExistsException("There is already an account with this number");
+            String msgError = messageUtils.getMessage(ACCOUNT_ALREADY_EXISTS, accountNumber);
+            log.error(msgError);
+            throw new ResourceAlreadyExistsException(msgError);
         }
         return false;
     }
 
     @Override
     public Account getByAccountNumber(String accountNumber) {
-       return repository.findByNumberEquals(accountNumber).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        String msgError = messageUtils.getMessage(ACCOUNT_NOT_FOUND, accountNumber);
+        log.error(msgError);
+       return repository.findByNumberEquals(accountNumber).orElseThrow(() -> new AccountNotFoundException(msgError));
     }
 
 }

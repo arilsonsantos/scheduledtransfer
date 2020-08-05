@@ -1,6 +1,8 @@
 package br.com.orion.scheduledtransfer.application.exceptionhandler;
 
+import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import br.com.orion.scheduledtransfer.domain.exceptions.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,13 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import static br.com.orion.scheduledtransfer.application.enumeration.MessageApplicationEnum.INVALID_ARGUMENT;
+
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @Autowired
+    private MessageUtils messageUtils;
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -27,7 +34,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ValidationErrorDetail error = new ValidationErrorDetail();
         error.setStatusCode(status.value());
         error.setException(ex.getClass().getSimpleName());
-        error.setMessage("Invalid argument(s)");
+        error.setMessage(messageUtils.getMessage(INVALID_ARGUMENT));
         error.setTimestamp(LocalDateTime.now());
         error.setErrors(errors);
 

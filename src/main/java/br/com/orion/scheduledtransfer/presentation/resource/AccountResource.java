@@ -6,17 +6,21 @@ import br.com.orion.scheduledtransfer.domain.interfaces.IAccountService;
 import br.com.orion.scheduledtransfer.domain.interfaces.IUserService;
 import br.com.orion.scheduledtransfer.domain.model.Account;
 import br.com.orion.scheduledtransfer.domain.model.User;
+import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static br.com.orion.scheduledtransfer.application.enumeration.MessageApplicationEnum.*;
 import static br.com.orion.scheduledtransfer.infrastructure.utils.PageNumberUtils.adjustmentPagination;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.ResponseEntity.noContent;
+import static org.springframework.http.ResponseEntity.ok;
 
 @Slf4j
 @RestController
@@ -26,20 +30,21 @@ public class AccountResource {
 
     private IAccountService accountService;
     private IUserService userService;
+    private MessageUtils messageUtils;
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
+    @ResponseStatus(code = CREATED)
     public ResponseEntity<AccountDto> create(@Validated @RequestBody AccountDto accountDto, @AuthenticationPrincipal UserDetails principal){
-        if (!accountDto.getNumber().matches("\\d{6}")){
-            throw new AccountNumberFormatException("Account number must have 6 numbers");
-        }
+        validateUser(accountDto);
+
         User user = userService.findByUsername(principal.getUsername());
         Account account = accountDto.toAccount();
         account.setUser(user);
         account = accountService.create(account);
         accountDto = new AccountDto(account);
 
-        return new ResponseEntity<AccountDto>(accountDto, HttpStatus.CREATED);
+        log.info(messageUtils.getMessage(ACCOUNT_SAVED));
+        return new ResponseEntity<AccountDto>(accountDto, CREATED);
     }
 
     @GetMapping
@@ -54,8 +59,15 @@ public class AccountResource {
         Page<Account> pageAccount = accountService.findAllByIdUser(id, pageNumber, pageSize);
         Page<AccountDto> resultDto = pageAccount.map(s -> s).map(AccountDto::new);
 
-        return resultDto.getContent().isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(resultDto);
+        return resultDto.getContent().isEmpty() ? noContent().build() : ok(resultDto);
+    }
 
+    private void validateUser(AccountDto accountDto){
+        if (!accountDto.getNumber().matches("\\d{6}")){
+            String warnMessage = messageUtils.getMessage(ACCOUNT_MUST_HAVE_SIX_NUMBERS);
+            log.warn(warnMessage);
+            throw new AccountNumberFormatException(warnMessage);
+        }
     }
 
 }

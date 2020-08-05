@@ -4,6 +4,7 @@ import br.com.orion.scheduledtransfer.application.service.AccountService;
 import br.com.orion.scheduledtransfer.domain.interfaces.IAccountService;
 import br.com.orion.scheduledtransfer.domain.interfaces.repository.IAccountRepository;
 import br.com.orion.scheduledtransfer.domain.model.Account;
+import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,13 +19,14 @@ import static org.mockito.Mockito.when;
 public class AccountServiceTest {
 
     IAccountService accountService;
+    MessageUtils messageUtils;
 
     @MockBean
     IAccountRepository accountRepository;
 
     @BeforeEach
     public void setUp() {
-        accountService = new AccountService(accountRepository);
+        accountService = new AccountService(accountRepository, messageUtils);
     }
 
     @Test

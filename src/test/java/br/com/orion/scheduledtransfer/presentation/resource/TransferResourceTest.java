@@ -130,7 +130,7 @@ public class TransferResourceTest {
         when(userRepository.getIdByUsername("user")).thenReturn(Optional.of(1l));
 
         Page<Transfer> pageTransfer = getTransfers();
-        when(transferService.findAllTransferByAccountAndUser(anyString(), anyLong(), anyInt(), anyInt())).thenReturn(pageTransfer);
+        when(transferService.findAllTransferByAccountNumberAndIdUser(anyString(), anyLong(), anyInt(), anyInt())).thenReturn(pageTransfer);
 
         var request = MockMvcRequestBuilders.get(TRANSFER_API.concat("/").concat(accountNumber)).accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);

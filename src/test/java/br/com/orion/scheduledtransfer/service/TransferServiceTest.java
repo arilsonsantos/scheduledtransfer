@@ -6,6 +6,7 @@ import br.com.orion.scheduledtransfer.domain.interfaces.ITransferService;
 import br.com.orion.scheduledtransfer.domain.interfaces.repository.ITransferRepository;
 import br.com.orion.scheduledtransfer.domain.model.Account;
 import br.com.orion.scheduledtransfer.domain.model.Transfer;
+import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,16 +28,19 @@ public class TransferServiceTest {
     IAccountService accountService;
 
     @MockBean
+    MessageUtils messageUtils;
+
+    @MockBean
     ITransferRepository repository;
 
     @BeforeEach
     public void setUp(){
-        transferService = new TransferService(repository, accountService);
+        transferService = new TransferService(repository, accountService, messageUtils);
     }
 
     @Test
     @DisplayName("$3 plus 3% of the amount to be transferred")
-    public void calculateA_test(){
+    public void calculate_test(){
         Transfer transfer = transfer_with_calculate_condition_B();
 
         var transferSaved = Transfer.builder().id(1L)

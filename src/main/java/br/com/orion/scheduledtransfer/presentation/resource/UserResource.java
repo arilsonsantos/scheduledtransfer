@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/public/users")
+@RequestMapping(value = "/api/public/users")
 public class UserResource {
 
     private IUserService service;
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<UserDto> create(@Validated @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> create(@Validated @RequestBody UserDto userDto, @RequestHeader(value = "Accept-Language", defaultValue = "default") String locale) {
         User user = userDto.toUser(userDto);
         user = service.create(user);
         userDto = new UserDto(user);
