@@ -22,7 +22,6 @@ public class AccountDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-
     @Size(min = 6, max = 6, message = "{account.number.size}")
     private String number;
 
