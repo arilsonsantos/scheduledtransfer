@@ -11,6 +11,7 @@ Scheduled Transfer is an API to schedule financial transfers.
 * Spring Boot 2.3.2
 * Lombok
 * Junit 5
+* Mockito
 * Arch Unit
 
 
