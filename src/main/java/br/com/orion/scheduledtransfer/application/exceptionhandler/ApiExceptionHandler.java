@@ -3,6 +3,7 @@ package br.com.orion.scheduledtransfer.application.exceptionhandler;
 import br.com.orion.scheduledtransfer.application.utils.MessageUtils;
 import br.com.orion.scheduledtransfer.domain.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static br.com.orion.scheduledtransfer.application.enumeration.MessageApplicationEnum.INVALID_ARGUMENT;
 
@@ -115,6 +119,26 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .message(ex.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> handlePropertyReferenceException(ConstraintViolationException ex) {
+
+        Set<ConstraintViolation<?>> fieldErros = ex.getConstraintViolations();
+
+        Map<String, String> errors = new HashMap<>();
+        for (ConstraintViolation<?> fe : fieldErros) {
+            errors.put(fe.getPropertyPath().toString(), fe.getMessage());
+        }
+
+        ValidationErrorDetail error = new ValidationErrorDetail();
+        error.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        error.setException(ex.getClass().getSimpleName());
+        error.setMessage(messageUtils.getMessage(INVALID_ARGUMENT));
+        error.setTimestamp(LocalDateTime.now());
+        error.setErrors(errors);
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
